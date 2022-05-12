@@ -49,7 +49,7 @@ jobs:
           key: ${{ runner.os }}-node_modules-${{ hashFiles('package.json') }}
 
       - name: Unit tests
-        run: npm test -- -- -- --coverage
+        run: npm test -- --coverage
       - name: Linter
         run: npm run lint
 
