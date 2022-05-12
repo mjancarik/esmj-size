@@ -1,6 +1,6 @@
 {
   "name": "jspsc",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "JavaScript Package Size Cost like bundlephobia or import-cost",
   "keywords": [
     "bundlephobia",
