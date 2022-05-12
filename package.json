@@ -1,0 +1,81 @@
+{
+  "name": "jspsc",
+  "version": "0.0.1",
+  "description": "JavaScript Package Size Cost like bundlephobia or import-cost",
+  "keywords": [
+    "bundlephobia",
+    "import cost",
+    "analysis",
+    "javascript cost",
+    "webpack"
+  ],
+  "bin": {
+    "jspsc": "./bin/jspsc.mjs"
+  },
+  "main": "/src/index.mjs",
+  "scripts": {
+    "preversion": "npm test && npm run lint",
+    "version": "npm run changelog && git add CHANGELOG.md",
+    "postversion": "git push && git push --tags",
+    "test": "NODE_OPTIONS=--experimental-vm-modules ./node_modules/.bin/jest --no-watchman -c ./jest.config.js",
+    "lint:cmd": "eslint -c ./.eslintrc.js --ignore-path ./.prettierignore  --no-eslintrc",
+    "lint": "npm run lint:cmd -- './src/**/*.{mjs,cjs,js,jsx}'",
+    "lint:fix": "npm run lint -- --fix",
+    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 1",
+    "commit": "git-cz",
+    "prepare": "husky install"
+  },
+  "author": "Miroslav Jancarik",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mjancarik/jspsc.git"
+  },
+  "bugs": {
+    "url": "https://github.com/mjancarik/jspsc/issues"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^16.2.4",
+    "@commitlint/config-conventional": "^16.2.4",
+    "commitizen": "^4.2.4",
+    "conventional-changelog-cli": "^2.2.2",
+    "cz-conventional-changelog": "^3.3.0",
+    "eslint": "^8.10.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-jasmine": "^4.1.3",
+    "eslint-plugin-jest": "^26.1.5",
+    "eslint-plugin-prettier": "^4.0.0",
+    "git-cz": "^4.8.0",
+    "husky": "^8.0.1",
+    "jest": "^27.5.1",
+    "lint-staged": "^12.4.1",
+    "prettier": "^2.5.1"
+  },
+  "dependencies": {
+    "cli-table3": "^0.6.2",
+    "commander": "^9.2.0",
+    "css-loader": "^6.7.1",
+    "easy-uid": "^2.0.2",
+    "execa": "^6.1.0",
+    "fs-extra": "^10.1.0",
+    "mini-css-extract-plugin": "^2.6.0",
+    "ora": "^6.1.0",
+    "postcss-loader": "^6.2.1",
+    "postcss-preset-env": "^7.5.0",
+    "terser-webpack-plugin": "^5.3.1",
+    "webpack": "^5.72.0"
+  },
+  "lint-staged": {
+    "**/*.{js,mjs}": "npm run lint:cmd"
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
+  "config": {
+    "commitizen": {
+      "path": "git-cz"
+    }
+  }
+}
