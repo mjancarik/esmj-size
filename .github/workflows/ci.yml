@@ -56,7 +56,7 @@ jobs:
   publish:
     if: github.event_name == 'push' && contains(github.ref, '/tags/v')
     name: Publish to npm
-    needs: release
+    needs: test
     runs-on: ubuntu-latest
     env:
       NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
