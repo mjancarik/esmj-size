@@ -7,7 +7,11 @@ export function formatSize(bytes) {
 
   const index = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
 
-  return Math.round((bytes / Math.pow(1024, index) + Number.EPSILON) * 100) / 100 + ' ' + sizes[index];
+  return (
+    Math.round((bytes / Math.pow(1024, index) + Number.EPSILON) * 100) / 100 +
+    ' ' +
+    sizes[index]
+  );
 }
 
 export function formatTime(time) {
@@ -23,5 +27,9 @@ export function formatTime(time) {
     return '1 ms';
   }
 
-  return Math.round((time / Math.pow(1000, index) + Number.EPSILON) * 100) / 100 + ' ' + units[index];
+  return (
+    Math.round((time / Math.pow(1000, index) + Number.EPSILON) * 100) / 100 +
+    ' ' +
+    units[index]
+  );
 }
