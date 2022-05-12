@@ -77,7 +77,7 @@ jobs:
 
       - name: Create npmrc file
         run: echo "//registry.npmjs.org/:_authToken=\${NODE_AUTH_TOKEN}" >> $HOME/.npmrc 2> /dev/null
-      - run: npm run release:publish
+      - run: npm publish
 
       - name: Extract tmp current changelog
         run: node utils/extractChangelog.mjs
