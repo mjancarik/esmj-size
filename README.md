@@ -1,6 +1,6 @@
 # JavaScript Page Size Cost
 
-The `jspsc` show you javascript cost for your defined packages. The packages is bundled with Webpack. Then show the bundle size and downloaded time for bundle.
+The `@esmj/size` show you javascript cost for your defined packages. The packages is bundled with Webpack. Then show the bundle size and downloaded time for javascript bundle.
 
 ## Requirements
 
@@ -9,9 +9,10 @@ The `jspsc` show you javascript cost for your defined packages. The packages is 
 ## Install
 
 ```shell
-npm install -g jspsc
+npm install -g @esmj/size
+esmj-size @merkur/core
 // or
-npx jspsc @merkur/core
+npx @esmj/size @merkur/core
 ```
 
 ## Usage
@@ -19,7 +20,7 @@ npx jspsc @merkur/core
 You can display all available commands with following command.
 
 ```shell
-jspsc react,react-dom
+esmj-size react,react-dom
 # ┌────────────────────────────────────────┬────────────────────┬────────────────────┬────────────────────┐
 # │ Package                                │ Minify             │ Minify+Gzip        │ Minify+Brotli      │
 # ├────────────────────────────────────────┼────────────────────┼────────────────────┼────────────────────┤
@@ -35,7 +36,7 @@ jspsc react,react-dom
 # │ brotli             │ 3.07 s             │ 736.4 ms           │ 42.08 ms           │ 16.36 ms           │
 # └────────────────────┴────────────────────┴────────────────────┴────────────────────┴────────────────────┘
 
-jspsc easy-uid --json
+esmj-size easy-uid --json
 # {
 #   minify: {
 #     size: 297,
@@ -64,6 +65,6 @@ jspsc easy-uid --json
 
 You can display all available commands and settings with following command.
 ```shell
-jspsc --help
+esmj-size --help
 ```
 

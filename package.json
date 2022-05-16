@@ -1,5 +1,5 @@
 {
-  "name": "jspsc",
+  "name": "@esmj/size",
   "version": "0.1.1",
   "description": "JavaScript Package Size Cost like bundlephobia or import-cost",
   "keywords": [
@@ -10,7 +10,7 @@
     "webpack"
   ],
   "bin": {
-    "jspsc": "./bin/jspsc.mjs"
+    "esmj-size": "./bin/size.mjs"
   },
   "main": "/src/index.mjs",
   "scripts": {
@@ -29,10 +29,10 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/mjancarik/jspsc.git"
+    "url": "https://github.com/mjancarik/esmj-size.git"
   },
   "bugs": {
-    "url": "https://github.com/mjancarik/jspsc/issues"
+    "url": "https://github.com/mjancarik/esmj-size/issues"
   },
   "devDependencies": {
     "@commitlint/cli": "^16.2.4",
