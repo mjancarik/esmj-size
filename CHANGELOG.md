@@ -1,3 +1,7 @@
+## [0.1.4](https://github.com/mjancarik/esmj-size/compare/v0.1.3...v0.1.4) (2022-05-20)
+
+
+
 ## [0.1.3](https://github.com/mjancarik/esmj-size/compare/v0.1.2...v0.1.3) (2022-05-16)
 
 
