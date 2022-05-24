@@ -1,3 +1,12 @@
+## [0.1.5](https://github.com/mjancarik/esmj-size/compare/v0.1.4...v0.1.5) (2022-05-24)
+
+
+### Bug Fixes
+
+* 🐛 problem with program.name(...).description is not a fun ([7d03830](https://github.com/mjancarik/esmj-size/commit/7d03830ee1f981ecf8a10209d008ea425ffa2735))
+
+
+
 ## [0.1.4](https://github.com/mjancarik/esmj-size/compare/v0.1.3...v0.1.4) (2022-05-20)
 
 
