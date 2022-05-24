@@ -2,7 +2,7 @@ import path from 'node:path';
 
 import ora from 'ora';
 import fs from 'fs-extra';
-import { program } from 'commander';
+import { Command } from 'commander';
 
 import { renderSizeTable, renderTimeTable } from './reporter.mjs';
 import { bundle, getExternals } from './webpack.mjs';
@@ -22,12 +22,13 @@ try {
     version: '0.0.1',
   };
 }
+const program = new Command();
 
+program.name(packageJson.name);
+program.description('JavaScript package size cost');
+program.version(packageJson.version);
+program.argument('<packages>');
 program
-  .name(packageJson.name)
-  .description('JavaScript package size cost')
-  .version(packageJson.version)
-  .argument('<packages>')
   .option('--registry', 'npm registry URL')
   .option('--external', 'external dependencies to webpack config')
   .option('--explain', 'log webpack stats')
