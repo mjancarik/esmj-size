@@ -68,7 +68,7 @@ program.parse(process.argv);
 
     const result = await createResult({ TMP });
 
-    //await fs.remove(TMP);
+    await fs.remove(TMP);
 
     await (!options.json && renderSizeTable({ result, packages }));
     await (!options.json && renderTimeTable({ result }));
@@ -78,6 +78,6 @@ program.parse(process.argv);
     }
   } catch (error) {
     console.error(error);
-    //await fs.remove(TMP);
+    await fs.remove(TMP);
   }
 })(program.args, program.opts());
