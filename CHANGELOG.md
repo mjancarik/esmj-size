@@ -1,3 +1,12 @@
+## [0.1.6](https://github.com/mjancarik/esmj-size/compare/v0.1.5...v0.1.6) (2022-05-25)
+
+
+### Bug Fixes
+
+* 🐛 remove TMP folder ([c47cdb5](https://github.com/mjancarik/esmj-size/commit/c47cdb573507480c03739643933c98d78dcf7172))
+
+
+
 ## [0.1.5](https://github.com/mjancarik/esmj-size/compare/v0.1.4...v0.1.5) (2022-05-24)
 
 
