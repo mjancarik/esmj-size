@@ -1,6 +1,6 @@
 import Table from 'cli-table3';
 
-import { formatSize, formatTime } from './format.mjs';
+import { formatSize, formatTime, formatNumber, formatDate } from './format.mjs';
 import { SPEED } from './constant.mjs';
 
 export async function renderSizeTable({ result, packages }) {
@@ -11,9 +11,9 @@ export async function renderSizeTable({ result, packages }) {
 
   sizeTable.push([
     packages.join(),
-    formatSize(result.minify.size),
-    formatSize(result.gzip.size),
-    formatSize(result.brotli.size),
+    formatSize(result.bundle.minify.size),
+    formatSize(result.bundle.gzip.size),
+    formatSize(result.bundle.brotli.size),
   ]);
 
   console.log(sizeTable.toString());
@@ -25,17 +25,49 @@ export async function renderTimeTable({ result }) {
     colWidths: [20, 20, 20, 20, 20],
   });
 
-  Object.keys(result).forEach((type) => {
+  Object.keys(result.bundle).forEach((type) => {
     Object.keys(SPEED).forEach((wifi) => {
-      result[type].speed[wifi] = result[type].size / SPEED[wifi];
+      result.bundle[type].speed[wifi] = result.bundle[type].size / SPEED[wifi];
     });
 
     timeTable.push([
       type,
-      formatTime(result[type].speed['2g']),
-      formatTime(result[type].speed['3g']),
-      formatTime(result[type].speed['4g']),
-      formatTime(result[type].speed['5g']),
+      formatTime(result.bundle[type].speed['2g']),
+      formatTime(result.bundle[type].speed['3g']),
+      formatTime(result.bundle[type].speed['4g']),
+      formatTime(result.bundle[type].speed['5g']),
+    ]);
+  });
+
+  console.log(timeTable.toString());
+}
+
+export async function renderPackageInfo({ result, packages }) {
+  const timeTable = new Table({
+    head: [
+      'package',
+      'downloads day / week / month',
+      'version',
+      'license',
+      'created',
+      'updated',
+      'unpacked size',
+    ],
+    colWidths: [20, 30, 10, 10, 15, 15, 15],
+  });
+
+  packages.forEach((packageName) => {
+    const packageData = result[packageName];
+    timeTable.push([
+      packageName,
+      `${formatNumber(packageData.downloads.day)} / ${formatNumber(
+        packageData.downloads.week
+      )} / ${formatNumber(packageData.downloads.month)}`,
+      packageData.info.version,
+      packageData.info.license,
+      formatDate(packageData.info.created),
+      formatDate(packageData.info.updated),
+      formatSize(packageData.info.unpackedSize),
     ]);
   });
 

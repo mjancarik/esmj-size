@@ -62,6 +62,7 @@
     "easy-uid": "^2.0.2",
     "execa": "^6.1.0",
     "fs-extra": "^10.1.0",
+    "got": "^12.1.0",
     "mini-css-extract-plugin": "^2.6.0",
     "ora": "^6.1.0",
     "postcss-loader": "^6.2.1",

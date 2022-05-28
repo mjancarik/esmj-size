@@ -1,17 +1,26 @@
 import path from 'node:path';
+import util from 'node:util';
 
 import ora from 'ora';
 import fs from 'fs-extra';
 import { Command } from 'commander';
 
-import { renderSizeTable, renderTimeTable } from './reporter.mjs';
+import {
+  renderPackageInfo,
+  renderSizeTable,
+  renderTimeTable,
+} from './reporter.mjs';
 import { bundle, getExternals } from './webpack.mjs';
 import {
   createEmptyModule,
   createIndex,
   installDependencies,
 } from './createModule.mjs';
-import { createResult } from './createResult.mjs';
+import {
+  createBundleResult,
+  createDownloadsResult,
+  createPackageInfo,
+} from './createResult.mjs';
 
 const dir = path.resolve('./');
 let packageJson = null;
@@ -33,6 +42,7 @@ program
   .option('--external', 'external dependencies to webpack config')
   .option('--explain', 'log webpack stats')
   .option('--json', 'log only json format')
+  .option('--pretty', 'log only pretty print object')
   .option(
     '--bundle',
     'bundle all dependencies with external dependencies and tree shaking'
@@ -66,15 +76,29 @@ program.parse(process.argv);
       );
     }
 
-    const result = await createResult({ TMP });
+    let result = await createBundleResult({ TMP });
 
     await fs.remove(TMP);
 
-    await (!options.json && renderSizeTable({ result, packages }));
-    await (!options.json && renderTimeTable({ result }));
+    result = await createDownloadsResult({ result, packages });
+    result = await createPackageInfo({ result, packages, options });
+
+    await (!options.json &&
+      !options.pretty &&
+      renderSizeTable({ result, packages }));
+    await (!options.json && !options.pretty && renderTimeTable({ result }));
+    await (!options.json &&
+      !options.pretty &&
+      renderPackageInfo({ result, packages }));
 
     if (options.json) {
-      console.log(result);
+      console.log(JSON.stringify(result));
+    }
+
+    if (options.pretty) {
+      console.log(
+        util.inspect(result, { showHidden: false, depth: null, colors: true })
+      );
     }
   } catch (error) {
     console.error(error);
