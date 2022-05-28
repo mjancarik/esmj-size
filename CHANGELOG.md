@@ -1,3 +1,18 @@
+# [0.2.0](https://github.com/mjancarik/esmj-size/compare/v0.1.6...v0.2.0) (2022-05-28)
+
+
+### Features
+
+* 🎸 add package info to reporting ([0421305](https://github.com/mjancarik/esmj-size/commit/0421305a2ede8b7f03b0fdd93eb0070b4a8425aa))
+
+
+### BREAKING CHANGES
+
+* 🧨 Change option --json to --pretty. --json option returns JSON.stringify
+result.
+
+
+
 ## [0.1.6](https://github.com/mjancarik/esmj-size/compare/v0.1.5...v0.1.6) (2022-05-25)
 
 
