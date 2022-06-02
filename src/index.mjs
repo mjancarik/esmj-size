@@ -1,5 +1,6 @@
 import path from 'node:path';
 import util from 'node:util';
+import { URL } from 'node:url';
 
 import ora from 'ora';
 import fs from 'fs-extra';
@@ -22,7 +23,8 @@ import {
   createPackageInfo,
 } from './createResult.mjs';
 
-const dir = path.resolve('./');
+const __dirname = new URL('.', import.meta.url).pathname;
+const dir = path.resolve(`${__dirname}/../`);
 let packageJson = null;
 try {
   packageJson = JSON.parse(fs.readFileSync(`${dir}/package.json`, 'utf8'));
