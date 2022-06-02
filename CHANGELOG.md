@@ -1,3 +1,12 @@
+## [0.2.1](https://github.com/mjancarik/esmj-size/compare/v0.2.0...v0.2.1) (2022-06-02)
+
+
+### Bug Fixes
+
+* 🐛 showing correct cli version ([a8889ed](https://github.com/mjancarik/esmj-size/commit/a8889eda36da37fc382eded1847047f631ff9ba3))
+
+
+
 # [0.2.0](https://github.com/mjancarik/esmj-size/compare/v0.1.6...v0.2.0) (2022-05-28)
 
 
