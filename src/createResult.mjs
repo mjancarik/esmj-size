@@ -48,7 +48,9 @@ export async function createDownloadsResult({ packages, result }) {
           .get(`${API.NPM_DOWNLOADS}/${PERIOD[key]}/${packageName}`)
           .json();
       })
-    );
+    ).catch(() => {
+      return [{ downloads: 0 }, { downloads: 0 }, { downloads: 0 }];
+    });
 
     result[packageName] = {
       ...result[packageName],
@@ -67,7 +69,16 @@ export async function createPackageInfo({ packages, result, options }) {
   for (let packageName of packages) {
     const packageInfo = await got
       .get(`${options.registry ?? API.REGISTRY_PACKAGE_INFO}/${packageName}`)
-      .json();
+      .json()
+      .catch(() => {
+        return {
+          license: undefined,
+          created: undefined,
+          modified: undefined,
+          latest: undefined,
+          unpackedSize: undefined,
+        };
+      });
 
     result[packageName] = {
       ...result[packageName],
