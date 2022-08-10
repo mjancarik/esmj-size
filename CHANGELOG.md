@@ -1,3 +1,12 @@
+## [0.2.2](https://github.com/mjancarik/esmj-size/compare/v0.2.1...v0.2.2) (2022-08-10)
+
+
+### Bug Fixes
+
+* 🐛 script not crash after failing 3rd API calls ([695647d](https://github.com/mjancarik/esmj-size/commit/695647dca9857b79e54adc71df9962f9fc1be00a))
+
+
+
 ## [0.2.1](https://github.com/mjancarik/esmj-size/compare/v0.2.0...v0.2.1) (2022-06-02)
 
 
