@@ -17,8 +17,6 @@ npx @esmj/size @merkur/core
 
 ## Usage
 
-You can display all available commands with following command.
-
 ```shell
 
 esmj-size react,react-dom
