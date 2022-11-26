@@ -15,9 +15,12 @@ export async function createIndex({ packages, TMP }) {
 }
 
 export async function installDependencies({ packages, options, TMP }) {
-  const installArgs = ['install', '--save', '--ignore-scripts'].concat(
-    packages
-  );
+  const installArgs = [
+    'install',
+    '--save',
+    '--ignore-scripts',
+    '--bin-links=false',
+  ].concat(packages);
 
   if (options.registry) {
     installArgs.push('--registry', options.registry);

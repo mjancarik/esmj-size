@@ -63,7 +63,14 @@ describe('createModule', () => {
 
       expect(execa.mock.calls[0]).toEqual([
         'npm',
-        ['install', '--save', '--ignore-scripts', 'react', 'react-dom'],
+        [
+          'install',
+          '--save',
+          '--ignore-scripts',
+          '--bin-links=false',
+          'react',
+          'react-dom',
+        ],
         { cwd: 'folder' },
       ]);
     });
