@@ -1,3 +1,12 @@
+# [0.3.0](https://github.com/mjancarik/esmj-size/compare/v0.2.2...v0.3.0) (2022-11-26)
+
+
+### Features
+
+* 🎸 turn off bin-links ([394f9c6](https://github.com/mjancarik/esmj-size/commit/394f9c64dbff7f16d0d10609f82275c58ecefb24))
+
+
+
 ## [0.2.2](https://github.com/mjancarik/esmj-size/compare/v0.2.1...v0.2.2) (2022-08-10)
 
 
