@@ -2,7 +2,6 @@ import zlib from 'node:zlib';
 import { promisify } from 'node:util';
 
 import fs from 'fs-extra';
-import got from 'got';
 
 import { SPEED, API, PERIOD } from './constant.mjs';
 
@@ -44,9 +43,9 @@ export async function createDownloadsResult({ packages, result }) {
   for (let packageName of packages) {
     const [day, week, month] = await Promise.all(
       Object.keys(PERIOD).map((key) => {
-        return got
-          .get(`${API.NPM_DOWNLOADS}/${PERIOD[key]}/${packageName}`)
-          .json();
+        return fetch(`${API.NPM_DOWNLOADS}/${PERIOD[key]}/${packageName}`).then(
+          (response) => response.json()
+        );
       })
     ).catch(() => {
       return [{ downloads: 0 }, { downloads: 0 }, { downloads: 0 }];
@@ -67,16 +66,29 @@ export async function createDownloadsResult({ packages, result }) {
 
 export async function createPackageInfo({ packages, result, options }) {
   for (let packageName of packages) {
-    const packageInfo = await got
-      .get(`${options.registry ?? API.REGISTRY_PACKAGE_INFO}/${packageName}`)
-      .json()
-      .catch(() => {
+    const packageInfo = await fetch(
+      `${options.registry ?? API.REGISTRY_PACKAGE_INFO}/${packageName}`
+    )
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        }
+
+        throw new Error('Package info is not loaded.');
+      })
+      .catch((error) => {
+        console.error(error);
         return {
           license: undefined,
-          created: undefined,
-          modified: undefined,
-          latest: undefined,
+          time: {
+            created: undefined,
+            modified: undefined,
+          },
+          'dist-tags': {
+            latest: undefined,
+          },
           unpackedSize: undefined,
+          versions: {},
         };
       });
 
