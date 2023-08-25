@@ -43,7 +43,7 @@ export async function createEmptyModule() {
   await fs.writeFile(
     path.join(TMP, 'package.json'),
     JSON.stringify(emptyPackage),
-    'utf8'
+    'utf8',
   );
 
   await fs.writeFile(path.join(TMP, 'LICENSE.md'), '', 'utf8');

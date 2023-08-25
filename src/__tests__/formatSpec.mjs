@@ -67,7 +67,7 @@ describe('format', () => {
   describe('formatDate', () => {
     it('should return 2022-04-01', () => {
       expect(formatDate(new Date('2022-04-01T09:29:40.128Z'))).toEqual(
-        '2022-4-1'
+        '2022-4-1',
       );
     });
 
@@ -85,13 +85,13 @@ describe('format', () => {
 
     it('should return 1 hours ago', () => {
       expect(formatDate(new Date(Date.now() - 60 * 60000))).toEqual(
-        '1 hours ago'
+        '1 hours ago',
       );
     });
 
     it('should return 1 days ago', () => {
       expect(formatDate(new Date(Date.now() - 24 * 60 * 60000))).toEqual(
-        '1 days ago'
+        '1 days ago',
       );
     });
   });

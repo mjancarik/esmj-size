@@ -43,10 +43,10 @@ describe('createModule', () => {
       expect(mkdir).toHaveBeenCalledWith(TMP);
 
       expect(writeFile.mock.calls[0][0]).toEqual(
-        expect.stringContaining('package.json')
+        expect.stringContaining('package.json'),
       );
       expect(writeFile.mock.calls[1][0]).toEqual(
-        expect.stringContaining('LICENSE.md')
+        expect.stringContaining('LICENSE.md'),
       );
 
       expect(TMP).toEqual(expect.any(String));
@@ -84,7 +84,7 @@ describe('createModule', () => {
       });
 
       expect(writeFile.mock.calls[0][0]).toEqual(
-        expect.stringContaining('blank.js')
+        expect.stringContaining('blank.js'),
       );
       expect(writeFile.mock.calls[0][1]).toMatchInlineSnapshot(`
         "export * as x123 from 'react';

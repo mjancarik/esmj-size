@@ -61,7 +61,7 @@ export async function renderPackageInfo({ result, packages }) {
     timeTable.push([
       packageName,
       `${formatNumber(packageData.downloads.day)} / ${formatNumber(
-        packageData.downloads.week
+        packageData.downloads.week,
       )} / ${formatNumber(packageData.downloads.month)}`,
       packageData.info.version,
       packageData.info.license,

@@ -47,7 +47,7 @@ program
   .option('--pretty', 'log only pretty print object')
   .option(
     '--bundle',
-    'bundle all dependencies with external dependencies and tree shaking'
+    'bundle all dependencies with external dependencies and tree shaking',
   );
 
 program.parse(process.argv);
@@ -74,7 +74,7 @@ program.parse(process.argv);
       console.log(
         stats.toString({
           colors: true,
-        })
+        }),
       );
     }
 
@@ -99,7 +99,7 @@ program.parse(process.argv);
 
     if (options.pretty) {
       console.log(
-        util.inspect(result, { showHidden: false, depth: null, colors: true })
+        util.inspect(result, { showHidden: false, depth: null, colors: true }),
       );
     }
   } catch (error) {

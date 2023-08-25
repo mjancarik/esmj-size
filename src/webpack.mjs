@@ -138,7 +138,7 @@ export async function getExternals({ options, packages, TMP }) {
 
   for (let packageName of packages) {
     let packageFile = await fs.readFile(
-      `${TMP}/node_modules/${packageName}/package.json`
+      `${TMP}/node_modules/${packageName}/package.json`,
     );
     let packageJSON = null;
 

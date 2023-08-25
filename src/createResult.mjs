@@ -44,9 +44,9 @@ export async function createDownloadsResult({ packages, result }) {
     const [day, week, month] = await Promise.all(
       Object.keys(PERIOD).map((key) => {
         return fetch(`${API.NPM_DOWNLOADS}/${PERIOD[key]}/${packageName}`).then(
-          (response) => response.json()
+          (response) => response.json(),
         );
-      })
+      }),
     ).catch(() => {
       return [{ downloads: 0 }, { downloads: 0 }, { downloads: 0 }];
     });
@@ -67,7 +67,7 @@ export async function createDownloadsResult({ packages, result }) {
 export async function createPackageInfo({ packages, result, options }) {
   for (let packageName of packages) {
     const packageInfo = await fetch(
-      `${options.registry ?? API.REGISTRY_PACKAGE_INFO}/${packageName}`
+      `${options.registry ?? API.REGISTRY_PACKAGE_INFO}/${packageName}`,
     )
       .then((response) => {
         if (response.ok) {
