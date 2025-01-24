@@ -1,9 +1,9 @@
-import zlib from 'node:zlib';
 import { promisify } from 'node:util';
+import zlib from 'node:zlib';
 
 import fs from 'fs-extra';
 
-import { SPEED, API, PERIOD } from './constant.mjs';
+import { API, PERIOD, SPEED } from './constant.mjs';
 
 export async function createBundleResult({ TMP }) {
   const file = await fs.readFile(`${TMP}/blank.bundle.js`);
@@ -40,7 +40,7 @@ export async function createBundleResult({ TMP }) {
 }
 
 export async function createDownloadsResult({ packages, result }) {
-  for (let packageName of packages) {
+  for (const packageName of packages) {
     const [day, week, month] = await Promise.all(
       Object.keys(PERIOD).map((key) => {
         return fetch(`${API.NPM_DOWNLOADS}/${PERIOD[key]}/${packageName}`).then(
@@ -65,7 +65,7 @@ export async function createDownloadsResult({ packages, result }) {
 }
 
 export async function createPackageInfo({ packages, result, options }) {
-  for (let packageName of packages) {
+  for (const packageName of packages) {
     const packageInfo = await fetch(
       `${options.registry ?? API.REGISTRY_PACKAGE_INFO}/${packageName}`,
     )

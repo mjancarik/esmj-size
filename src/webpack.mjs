@@ -1,9 +1,9 @@
 import module from 'node:module';
 
 import fs from 'fs-extra';
-import webpack from 'webpack';
-import TerserPlugin from 'terser-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import TerserPlugin from 'terser-webpack-plugin';
+import webpack from 'webpack';
 
 const require = module.createRequire(import.meta.url);
 
@@ -49,7 +49,7 @@ export async function bundle({ options, externals, TMP }) {
               options: {
                 modules: {
                   auto: true,
-                  localIdentName: `[path][name]__[local]--[hash:base64:5]`,
+                  localIdentName: '[path][name]__[local]--[hash:base64:5]',
                 },
               },
             },
@@ -136,8 +136,8 @@ export async function bundle({ options, externals, TMP }) {
 export async function getExternals({ options, packages, TMP }) {
   let externals = [];
 
-  for (let packageName of packages) {
-    let packageFile = await fs.readFile(
+  for (const packageName of packages) {
+    const packageFile = await fs.readFile(
       `${TMP}/node_modules/${packageName}/package.json`,
     );
     let packageJSON = null;

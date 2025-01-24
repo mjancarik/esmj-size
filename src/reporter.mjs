@@ -1,7 +1,7 @@
 import Table from 'cli-table3';
 
-import { formatSize, formatTime, formatNumber, formatDate } from './format.mjs';
 import { SPEED } from './constant.mjs';
+import { formatDate, formatNumber, formatSize, formatTime } from './format.mjs';
 
 export async function renderSizeTable({ result, packages }) {
   const sizeTable = new Table({

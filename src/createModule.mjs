@@ -1,17 +1,17 @@
-import path from 'node:path';
 import os from 'node:os';
+import path from 'node:path';
 
-import fs from 'fs-extra';
-import { execa } from 'execa';
 import uid from 'easy-uid';
+import { execa } from 'execa';
+import fs from 'fs-extra';
 
-export async function createIndex({ packages, TMP }) {
-  const imports = packages.map((packageName) => {
+export async function createIndex({ imports, TMP }) {
+  const indexImports = imports.map((imp) => {
     const moduleName = `x${uid()}`;
-    return `export * as ${moduleName} from '${packageName}';`;
+    return `export * as ${moduleName} from '${imp}';`;
   });
 
-  return await fs.writeFile(`${TMP}/blank.js`, imports.join('\n'));
+  return await fs.writeFile(`${TMP}/blank.js`, indexImports.join('\n'));
 }
 
 export async function installDependencies({ packages, options, TMP }) {
@@ -49,4 +49,19 @@ export async function createEmptyModule() {
   await fs.writeFile(path.join(TMP, 'LICENSE.md'), '', 'utf8');
 
   return { TMP };
+}
+
+export function getPackages({ imports }) {
+  const packages = imports.map((imp) => {
+    const importParts = imp.split('/');
+    if (imp.startsWith('@')) {
+      return importParts.length > 2
+        ? `${importParts[0]}/${importParts[1]}`
+        : imp;
+    }
+
+    return importParts.length > 1 ? importParts[0] : imp;
+  });
+
+  return Array.from(new Set(packages));
 }

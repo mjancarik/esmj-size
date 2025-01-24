@@ -1,9 +1,9 @@
 import { jest } from '@jest/globals';
 
-let remove = jest.fn();
-let mkdir = jest.fn();
-let writeFile = jest.fn();
-let execa = jest.fn();
+const remove = jest.fn();
+const mkdir = jest.fn();
+const writeFile = jest.fn();
+const execa = jest.fn();
 
 jest.mock('fs-extra', () => {
   return {
@@ -37,7 +37,7 @@ describe('createModule', () => {
 
   describe('createEmptyModule', () => {
     it('should create empty module structure to TMP folder', async () => {
-      let { TMP } = await module.createEmptyModule();
+      const { TMP } = await module.createEmptyModule();
 
       expect(remove).toHaveBeenCalledWith(TMP);
       expect(mkdir).toHaveBeenCalledWith(TMP);
@@ -80,7 +80,7 @@ describe('createModule', () => {
     it('should create index file with imported defined packages', async () => {
       await module.createIndex({
         TMP: 'folder',
-        packages: ['react', 'react-dom'],
+        imports: ['react', 'react-dom'],
       });
 
       expect(writeFile.mock.calls[0][0]).toEqual(

@@ -4,7 +4,7 @@ The `@esmj/size` show you javascript cost for your defined packages. The package
 
 ## Requirements
 
-- Node 14+
+- Node 20+
 
 ## Install
 

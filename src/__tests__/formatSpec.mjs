@@ -1,5 +1,5 @@
 import '@jest/globals';
-import { formatSize, formatTime, formatNumber, formatDate } from '../format';
+import { formatDate, formatNumber, formatSize, formatTime } from '../format';
 
 describe('format', () => {
   describe('formatTime', () => {
