@@ -1,3 +1,10 @@
+## 0.6.0 (2025-01-24)
+
+* ci: 🎡 update node version ([13ee8d3](https://github.com/mjancarik/esmj-size/commit/13ee8d3))
+* feat: allow deep import like preact/compat ([bca5f08](https://github.com/mjancarik/esmj-size/commit/bca5f08))
+
+
+
 # [0.5.0](https://github.com/mjancarik/esmj-size/compare/v0.4.0...v0.5.0) (2023-08-25)
 
 
