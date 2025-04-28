@@ -85,6 +85,10 @@ export async function bundle({ options, externals, TMP }) {
             fullySpecified: false,
           },
         },
+        {
+          test: /\.svg$/,
+          loader: 'svg-inline-loader',
+        },
       ],
     },
     optimization: {
