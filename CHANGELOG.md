@@ -1,3 +1,10 @@
+## <small>0.6.1 (2025-04-28)</small>
+
+* chore: 🤖 remove deprecticated code ([c96179c](https://github.com/mjancarik/esmj-size/commit/c96179c))
+* feat: 🎸 add svg support ([103f15b](https://github.com/mjancarik/esmj-size/commit/103f15b))
+
+
+
 ## 0.6.0 (2025-01-24)
 
 * ci: 🎡 update node version ([13ee8d3](https://github.com/mjancarik/esmj-size/commit/13ee8d3))
