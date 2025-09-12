@@ -1,3 +1,9 @@
+## <small>0.7.1 (2025-09-12)</small>
+
+* fix: 🐛 exports CLI option ([a293a96](https://github.com/mjancarik/esmj-size/commit/a293a96))
+
+
+
 ## 0.7.0 (2025-09-12)
 
 * feat: 🎸 add new option exports ([65ac54d](https://github.com/mjancarik/esmj-size/commit/65ac54d))
