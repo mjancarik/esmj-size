@@ -8,13 +8,8 @@ import fs from 'fs-extra';
 export async function createIndex({ imports, TMP, options }) {
   let indexImports = [];
 
-  if (options?.exports) {
-    indexImports = options.exports
-      .split(',')
-      .map((statement) => statement.trim())
-      .map((statement) =>
-        statement[statement.length - 1] !== ';' ? `${statement};` : statement,
-      );
+  if (options?.code) {
+    indexImports = [options.code.trim()];
   } else {
     indexImports = imports.map((imp) => {
       const moduleName = `x${uid()}`;
