@@ -1,3 +1,13 @@
+## 0.8.0 (2025-09-12)
+
+* feat: 🎸 add new CLI option code which replace exports ([6da8d5c](https://github.com/mjancarik/esmj-size/commit/6da8d5c))
+
+
+### BREAKING CHANGE
+
+* 🧨 The export CLI option was removed.
+
+
 ## <small>0.7.1 (2025-09-12)</small>
 
 * fix: 🐛 exports CLI option ([a293a96](https://github.com/mjancarik/esmj-size/commit/a293a96))
