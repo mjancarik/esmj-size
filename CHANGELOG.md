@@ -1,3 +1,9 @@
+## 0.7.0 (2025-09-12)
+
+* feat: 🎸 add new option exports ([65ac54d](https://github.com/mjancarik/esmj-size/commit/65ac54d))
+
+
+
 ## <small>0.6.1 (2025-04-28)</small>
 
 * chore: 🤖 remove deprecticated code ([c96179c](https://github.com/mjancarik/esmj-size/commit/c96179c))
