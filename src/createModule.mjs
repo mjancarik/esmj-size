@@ -5,11 +5,22 @@ import uid from 'easy-uid';
 import { execa } from 'execa';
 import fs from 'fs-extra';
 
-export async function createIndex({ imports, TMP }) {
-  const indexImports = imports.map((imp) => {
-    const moduleName = `x${uid()}`;
-    return `export * as ${moduleName} from '${imp}';`;
-  });
+export async function createIndex({ imports, TMP, options }) {
+  let indexImports = [];
+
+  if (options?.exports) {
+    indexImports = options.exports
+      .split(',')
+      .map((statement) => statement.trim())
+      .map((statement) =>
+        statement[statement.length - 1] !== ';' ? `${statement};` : statement,
+      );
+  } else {
+    indexImports = imports.map((imp) => {
+      const moduleName = `x${uid()}`;
+      return `export * as ${moduleName} from '${imp}';`;
+    });
+  }
 
   return await fs.writeFile(`${TMP}/blank.js`, indexImports.join('\n'));
 }

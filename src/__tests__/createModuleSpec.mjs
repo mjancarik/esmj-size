@@ -91,5 +91,24 @@ describe('createModule', () => {
         export * as x123 from 'react-dom';"
       `);
     });
+
+    it('should create index file with exported statements for packages', async () => {
+      await module.createIndex({
+        TMP: 'folder',
+        imports: ['react', 'react-dom'],
+        options: {
+          exports:
+            'export { useState } from "react", export { useEffect } from "react-dom";',
+        },
+      });
+
+      expect(writeFile.mock.calls[0][0]).toEqual(
+        expect.stringContaining('blank.js'),
+      );
+      expect(writeFile.mock.calls[0][1]).toMatchInlineSnapshot(`
+        "export { useState } from "react";
+        export { useEffect } from "react-dom";"
+      `);
+    });
   });
 });

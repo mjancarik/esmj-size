@@ -47,6 +47,7 @@ program
   .option('--explain', 'log webpack stats')
   .option('--json', 'log only json format')
   .option('--pretty', 'log only pretty print object')
+  .option('--exports', 'export statements')
   .option(
     '--bundle',
     'bundle all dependencies with external dependencies and tree shaking',
