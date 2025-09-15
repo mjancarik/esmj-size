@@ -7,7 +7,12 @@ import webpack from 'webpack';
 
 const require = module.createRequire(import.meta.url);
 
-export async function bundle({ options, externals, TMP }) {
+export async function bundle({ options, externals, TMP, packages }) {
+  const deepNodeModulesDependencies = packages.flatMap((pkg) => [
+    `${TMP}/node_modules/${pkg}/node_modules`,
+    `${TMP}/node_modules/${pkg}`,
+  ]);
+
   const config = {
     name: 'web',
     target: 'web',
@@ -21,7 +26,11 @@ export async function bundle({ options, externals, TMP }) {
     resolve: {
       alias: {},
       extensions: ['.mjs', '.js', '.jsx', '.json'],
-      modules: [`${TMP}/node_modules`, `${TMP}`],
+      modules: [
+        `${TMP}/node_modules`,
+        `${TMP}`,
+        ...deepNodeModulesDependencies,
+      ],
     },
     externals: options.bundle ? [] : externals,
     externalsPresets: { node: true },

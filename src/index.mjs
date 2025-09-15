@@ -70,7 +70,7 @@ program.parse(process.argv);
 
     spinner = !options.json && ora('Build bundle').start();
     const externals = await getExternals({ options, packages, TMP });
-    const stats = await bundle({ options, externals, TMP });
+    const stats = await bundle({ options, externals, packages, TMP });
     !options.json && spinner.succeed();
 
     if (options.explain) {
@@ -108,5 +108,6 @@ program.parse(process.argv);
   } catch (error) {
     console.error(error);
     await fs.remove(TMP);
+    !options.json && spinner.fail();
   }
 })(program.args, program.opts());
