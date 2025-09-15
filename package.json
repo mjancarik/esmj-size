@@ -1,6 +1,6 @@
 {
   "name": "@esmj/size",
-  "version": "0.8.0",
+  "version": "0.8.1",
   "description": "JavaScript Package Size Cost like bundlephobia or import-cost",
   "keywords": [
     "bundlephobia",

@@ -1,3 +1,9 @@
+## <small>0.8.1 (2025-09-15)</small>
+
+* fix: 🐛 blocking spinner, allow node deep dependencies resolving ([52bcefd](https://github.com/mjancarik/esmj-size/commit/52bcefd))
+
+
+
 ## 0.8.0 (2025-09-12)
 
 * feat: 🎸 add new CLI option code which replace exports ([6da8d5c](https://github.com/mjancarik/esmj-size/commit/6da8d5c))
