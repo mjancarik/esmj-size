@@ -83,7 +83,59 @@ esmj-size easy-uid --pretty
 # }
 ```
 
-You can display all available commands and settings with following command.
+## CLI Options
+
+### Basic Options
+
+- `--pretty` - Output the result as a pretty-printed object instead of tables
+- `--json` - Output the result in JSON format only
+- `--help` - Display all available commands and settings
+
+### Advanced Options
+
+- `--registry` - Specify a custom npm registry URL
+- `--external` - Define external dependencies for webpack config (dependencies that should not be bundled)
+- `--bundle` - Bundle all dependencies with external dependencies and enable tree shaking
+- `--explain` - Display detailed webpack stats output for debugging
+- `--code <string>` - Provide a code snippet to analyze instead of package imports
+
+### Examples
+
+**Analyze a specific package version:**
+```shell
+esmj-size react@17.0.2
+esmj-size lodash@4.17.21,moment@2.29.4
+```
+
+**Analyze with custom code snippet:**
+```shell
+esmj-size react --code "import React from 'react'; console.log(React.version);"
+```
+
+**Output as JSON:**
+```shell
+esmj-size lodash --json
+```
+
+**Bundle with external dependencies:**
+```shell
+esmj-size react-dom --external react --bundle
+```
+
+**Use custom npm registry:**
+```shell
+esmj-size @myorg/package --registry https://custom-registry.example.com
+```
+
+## Network Speed Reference
+
+The tool calculates download times based on the following network speeds:
+- **2g**: 12 KB/s
+- **3g**: 50 KB/s
+- **4g**: 875 KB/s
+- **5g**: 2250 KB/s
+
+You can display all available commands and settings with following command:
 ```shell
 esmj-size --help
 ```
