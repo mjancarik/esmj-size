@@ -1,3 +1,10 @@
+## <small>0.8.2 (2025-11-21)</small>
+
+* docs: ✏️ update documentation ([160b452](https://github.com/mjancarik/esmj-size/commit/160b452))
+* feat: 🎸 add support for installing concrete module version ([af18b0d](https://github.com/mjancarik/esmj-size/commit/af18b0d))
+
+
+
 ## <small>0.8.1 (2025-09-15)</small>
 
 * fix: 🐛 blocking spinner, allow node deep dependencies resolving ([52bcefd](https://github.com/mjancarik/esmj-size/commit/52bcefd))
