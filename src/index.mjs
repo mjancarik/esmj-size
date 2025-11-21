@@ -9,6 +9,7 @@ import ora from 'ora';
 import {
   createEmptyModule,
   createIndex,
+  getInstallPackages,
   getPackages,
   installDependencies,
 } from './createModule.mjs';
@@ -55,17 +56,18 @@ program
 
 program.parse(process.argv);
 (async (args, options) => {
-  const imports = args[0].split(',');
+  const imports = args[0].split(',').map((imp) => imp.trim());
+  const installPackages = getInstallPackages({ imports });
   const packages = getPackages({ imports, options });
 
   let spinner = !options.json && ora('Create project').start();
   const { TMP } = await createEmptyModule();
-  await createIndex({ TMP, imports, options });
+  await createIndex({ TMP, packages, options });
   !options.json && spinner.succeed();
 
   try {
     spinner = !options.json && ora('Install dependencies').start();
-    await installDependencies({ options, TMP, packages });
+    await installDependencies({ options, TMP, installPackages });
     !options.json && spinner.succeed();
 
     spinner = !options.json && ora('Build bundle').start();

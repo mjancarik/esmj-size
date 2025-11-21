@@ -36,7 +36,7 @@ describe('createModule', () => {
   });
 
   describe('createEmptyModule', () => {
-    it('should create empty module structure to TMP folder', async () => {
+    it('should create an empty module structure in the TMP folder', async () => {
       const { TMP } = await module.createEmptyModule();
 
       expect(remove).toHaveBeenCalledWith(TMP);
@@ -54,10 +54,10 @@ describe('createModule', () => {
   });
 
   describe('installDependencies', () => {
-    it('should install defined modules from npm registry', async () => {
+    it('should install the specified modules from the npm registry', async () => {
       await module.installDependencies({
         TMP: 'folder',
-        packages: ['react', 'react-dom'],
+        installPackages: ['react', 'react-dom'],
         options: {},
       });
 
@@ -77,10 +77,10 @@ describe('createModule', () => {
   });
 
   describe('createIndex', () => {
-    it('should create index file with imported defined packages', async () => {
+    it('should create an index file with imported specified packages', async () => {
       await module.createIndex({
         TMP: 'folder',
-        imports: ['react', 'react-dom'],
+        packages: ['react', 'react-dom'],
       });
 
       expect(writeFile.mock.calls[0][0]).toEqual(
@@ -92,10 +92,10 @@ describe('createModule', () => {
       `);
     });
 
-    it('should create index file with code snippet for packages', async () => {
+    it('should create an index file with a code snippet for the packages', async () => {
       await module.createIndex({
         TMP: 'folder',
-        imports: ['react', 'react-dom'],
+        packages: ['react', 'react-dom'],
         options: {
           code: 'export { useState } from "react"; export { useEffect } from "react-dom";console.log(useState,useEffect);',
         },
@@ -107,6 +107,78 @@ describe('createModule', () => {
       expect(writeFile.mock.calls[0][1]).toMatchInlineSnapshot(
         `"export { useState } from "react"; export { useEffect } from "react-dom";console.log(useState,useEffect);"`,
       );
+    });
+
+    it('should create an index file with imported specified packages and version', async () => {
+      await module.createIndex({
+        TMP: 'folder',
+        packages: ['@esmj/monitor'],
+      });
+
+      expect(writeFile.mock.calls[0][0]).toEqual(
+        expect.stringContaining('blank.js'),
+      );
+      expect(writeFile.mock.calls[0][1]).toMatchInlineSnapshot(
+        `"export * as x123 from '@esmj/monitor';"`,
+      );
+    });
+  });
+
+  describe('getInstallPackages', () => {
+    it('should return an array of packages when given a string', () => {
+      const result = module.getInstallPackages({ imports: ['react'] });
+      expect(result).toEqual(['react']);
+    });
+
+    it('should return the same array when given an array of packages', () => {
+      const input = ['react', 'react-dom'];
+      const result = module.getInstallPackages({ imports: input });
+      expect(result).toEqual(input);
+    });
+
+    it('should return package names with their versions', () => {
+      const input = [
+        '@esmj/monitor',
+        '@esmj/emitter@latest',
+        '@esmj/size@1.2.3',
+        'to-mock@rc',
+      ];
+      const result = module.getInstallPackages({ imports: input });
+      expect(result).toEqual([
+        '@esmj/monitor',
+        '@esmj/emitter@latest',
+        '@esmj/size@1.2.3',
+        'to-mock@rc',
+      ]);
+    });
+  });
+
+  describe('getPackages', () => {
+    it('should return an array of packages when given a string', () => {
+      const result = module.getPackages({ imports: ['react'] });
+      expect(result).toEqual(['react']);
+    });
+
+    it('should return the same array when given an array of packages', () => {
+      const input = ['react', 'react-dom'];
+      const result = module.getPackages({ imports: input });
+      expect(result).toEqual(input);
+    });
+
+    it('should trim package versions', () => {
+      const input = [
+        '@esmj/monitor',
+        '@esmj/emitter@latest',
+        '@esmj/size@1.2.3',
+        'to-mock@rc',
+      ];
+      const result = module.getPackages({ imports: input });
+      expect(result).toEqual([
+        '@esmj/monitor',
+        '@esmj/emitter',
+        '@esmj/size',
+        'to-mock',
+      ]);
     });
   });
 });
