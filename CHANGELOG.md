@@ -1,3 +1,9 @@
+## <small>0.8.3 (2026-04-16)</small>
+
+* feat: 🎸 add local package directory support via --local ([1572ebf](https://github.com/mjancarik/esmj-size/commit/1572ebf))
+
+
+
 ## <small>0.8.2 (2025-11-21)</small>
 
 * docs: ✏️ update documentation ([160b452](https://github.com/mjancarik/esmj-size/commit/160b452))
