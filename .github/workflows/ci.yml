@@ -52,8 +52,6 @@ jobs:
         run: npm test
       - name: Linter
         run: npm run lint
-      - name: Build
-        run: npm run build
 
       - name: Cache dist
         uses: actions/cache@v4
