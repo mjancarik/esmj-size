@@ -1,3 +1,11 @@
+## <small>0.8.4 (2026-04-16)</small>
+
+* ci: 🎡 remove build step ([ed4ddbd](https://github.com/mjancarik/esmj-size/commit/ed4ddbd))
+* ci: 🎡 update CI ([f2a72ae](https://github.com/mjancarik/esmj-size/commit/f2a72ae))
+* chore: 🤖 add npmignore file ([646c338](https://github.com/mjancarik/esmj-size/commit/646c338))
+
+
+
 ## <small>0.8.3 (2026-04-16)</small>
 
 * feat: 🎸 add local package directory support via --local ([1572ebf](https://github.com/mjancarik/esmj-size/commit/1572ebf))
