@@ -46,6 +46,7 @@ export async function renderPackageInfo({ result, packages }) {
   const timeTable = new Table({
     head: [
       'package',
+      'source',
       'downloads day / week / month',
       'version',
       'license',
@@ -53,21 +54,26 @@ export async function renderPackageInfo({ result, packages }) {
       'updated',
       'unpacked size',
     ],
-    colWidths: [20, 30, 10, 10, 15, 15, 15],
+    colWidths: [20, 10, 30, 10, 10, 15, 15, 15],
   });
 
   packages.forEach((packageName) => {
     const packageData = result[packageName];
+    const downloads = packageData.downloads
+      ? `${formatNumber(packageData.downloads.day)} / ${formatNumber(
+          packageData.downloads.week,
+        )} / ${formatNumber(packageData.downloads.month)}`
+      : '- / - / -';
+
     timeTable.push([
       packageName,
-      `${formatNumber(packageData.downloads.day)} / ${formatNumber(
-        packageData.downloads.week,
-      )} / ${formatNumber(packageData.downloads.month)}`,
-      packageData.info.version,
-      packageData.info.license,
-      formatDate(packageData.info.created),
-      formatDate(packageData.info.updated),
-      formatSize(packageData.info.unpackedSize),
+      packageData.source || 'npm',
+      downloads,
+      packageData.info?.version,
+      packageData.info?.license,
+      formatDate(packageData.info?.created),
+      formatDate(packageData.info?.updated),
+      formatSize(packageData.info?.unpackedSize),
     ]);
   });
 

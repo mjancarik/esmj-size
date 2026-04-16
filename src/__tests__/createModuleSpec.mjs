@@ -3,6 +3,9 @@ import { jest } from '@jest/globals';
 const remove = jest.fn();
 const mkdir = jest.fn();
 const writeFile = jest.fn();
+const pathExists = jest.fn();
+const stat = jest.fn();
+const readFile = jest.fn();
 const execa = jest.fn();
 
 jest.mock('fs-extra', () => {
@@ -10,6 +13,9 @@ jest.mock('fs-extra', () => {
     remove,
     mkdir,
     writeFile,
+    pathExists,
+    stat,
+    readFile,
   };
 });
 
@@ -151,6 +157,19 @@ describe('createModule', () => {
         'to-mock@rc',
       ]);
     });
+
+    it('should include local file specifiers with npm dependencies', () => {
+      const result = module.getInstallPackages({
+        imports: ['react'],
+        localModules: [
+          {
+            installSpecifier: 'file:/repo/local-module',
+          },
+        ],
+      });
+
+      expect(result).toEqual(['react', 'file:/repo/local-module']);
+    });
   });
 
   describe('getPackages', () => {
@@ -179,6 +198,65 @@ describe('createModule', () => {
         '@esmj/size',
         'to-mock',
       ]);
+    });
+
+    it('should include local package names with npm dependencies', () => {
+      const result = module.getPackages({
+        imports: ['react'],
+        localModules: [
+          {
+            name: '@scope/local-module',
+          },
+        ],
+      });
+
+      expect(result).toEqual(['react', '@scope/local-module']);
+    });
+  });
+
+  describe('getLocalModules', () => {
+    it('should resolve current directory local module from dot path', async () => {
+      pathExists.mockResolvedValue(true);
+      stat.mockResolvedValue({
+        isDirectory: () => true,
+      });
+      readFile.mockResolvedValue(
+        JSON.stringify({
+          name: '@scope/local-package',
+          version: '1.0.0',
+          license: 'MIT',
+        }),
+      );
+
+      const localModules = await module.getLocalModules({
+        localPaths: ['.'],
+        cwd: '/repo/project',
+      });
+
+      expect(localModules).toEqual([
+        {
+          inputPath: '.',
+          resolvedPath: '/repo/project',
+          name: '@scope/local-package',
+          packageJson: {
+            name: '@scope/local-package',
+            version: '1.0.0',
+            license: 'MIT',
+          },
+          installSpecifier: 'file:/repo/project',
+        },
+      ]);
+    });
+
+    it('should throw when local path does not exist', async () => {
+      pathExists.mockResolvedValue(false);
+
+      await expect(
+        module.getLocalModules({
+          localPaths: ['./missing'],
+          cwd: '/repo/project',
+        }),
+      ).rejects.toThrow('Local module path does not exist');
     });
   });
 });

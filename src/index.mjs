@@ -10,6 +10,7 @@ import {
   createEmptyModule,
   createIndex,
   getInstallPackages,
+  getLocalModules,
   getPackages,
   installDependencies,
 } from './createModule.mjs';
@@ -37,17 +38,19 @@ try {
   };
 }
 const program = new Command();
+const collectValues = (value, previous = []) => previous.concat([value]);
 
 program.name(packageJson.name);
 program.description('JavaScript package size cost');
 program.version(packageJson.version);
-program.argument('<imports>');
+program.argument('[imports]');
 program
   .option('--registry', 'npm registry URL')
   .option('--external', 'external dependencies to webpack config')
   .option('--explain', 'log webpack stats')
   .option('--json', 'log only json format')
   .option('--pretty', 'log only pretty print object')
+  .option('--local <dir>', 'local package directory', collectValues, [])
   .option('--code <string>', 'code snippet')
   .option(
     '--bundle',
@@ -56,9 +59,17 @@ program
 
 program.parse(process.argv);
 (async (args, options) => {
-  const imports = args[0].split(',').map((imp) => imp.trim());
-  const installPackages = getInstallPackages({ imports });
-  const packages = getPackages({ imports, options });
+  const imports = (args[0] ?? '')
+    .split(',')
+    .map((imp) => imp.trim())
+    .filter(Boolean);
+  const localModules = await getLocalModules({ localPaths: options.local });
+  const installPackages = getInstallPackages({ imports, localModules });
+  const packages = getPackages({ imports, localModules });
+
+  if (!packages.length) {
+    throw new Error('No modules provided. Use <imports> or --local <dir>.');
+  }
 
   let spinner = !options.json && ora('Create project').start();
   const { TMP } = await createEmptyModule();
@@ -87,8 +98,13 @@ program.parse(process.argv);
 
     await fs.remove(TMP);
 
-    result = await createDownloadsResult({ result, packages });
-    result = await createPackageInfo({ result, packages, options });
+    result = await createDownloadsResult({ result, packages, localModules });
+    result = await createPackageInfo({
+      result,
+      packages,
+      options,
+      localModules,
+    });
 
     await (!options.json &&
       !options.pretty &&

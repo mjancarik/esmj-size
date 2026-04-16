@@ -35,13 +35,13 @@ esmj-size react,react-dom
 # ├────────────────────┼────────────────────┼────────────────────┼────────────────────┼────────────────────┤
 # │ brotli             │ 3.07 s             │ 737.82 ms          │ 42.16 ms           │ 16.4 ms            │
 # └────────────────────┴────────────────────┴────────────────────┴────────────────────┴────────────────────┘
-# ┌────────────────────┬──────────────────────────────┬──────────┬──────────┬───────────────┬───────────────┬───────────────┐
-# │ package            │ downloads day / week / month │ version  │ license  │ created       │ updated       │ unpacked size │
-# ├────────────────────┼──────────────────────────────┼──────────┼──────────┼───────────────┼───────────────┼───────────────┤
-# │ react              │ 2.36M / 15.26M / 64.29M      │ 18.1.0   │ MIT      │ 2011-10-26    │ 1 days ago    │ 308.05 KB     │
-# ├────────────────────┼──────────────────────────────┼──────────┼──────────┼───────────────┼───────────────┼───────────────┤
-# │ react-dom          │ 2.18M / 14.03M / 59.02M      │ 18.1.0   │ MIT      │ 2014-5-6      │ 1 days ago    │ 4.2 MB        │
-# └────────────────────┴──────────────────────────────┴──────────┴──────────┴───────────────┴───────────────┴───────────────┘
+# ┌────────────────────┬──────────┬──────────────────────────────┬──────────┬──────────┬───────────────┬───────────────┬───────────────┐
+# │ package            │ source   │ downloads day / week / month │ version  │ license  │ created       │ updated       │ unpacked size │
+# ├────────────────────┼──────────┼──────────────────────────────┼──────────┼──────────┼───────────────┼───────────────┼───────────────┤
+# │ react              │ npm      │ 2.36M / 15.26M / 64.29M      │ 18.1.0   │ MIT      │ 2011-10-26    │ 1 days ago    │ 308.05 KB     │
+# ├────────────────────┼──────────┼──────────────────────────────┼──────────┼──────────┼───────────────┼───────────────┼───────────────┤
+# │ react-dom          │ npm      │ 2.18M / 14.03M / 59.02M      │ 18.1.0   │ MIT      │ 2014-5-6      │ 1 days ago    │ 4.2 MB        │
+# └────────────────────┴──────────┴──────────────────────────────┴──────────┴──────────┴───────────────┴───────────────┴───────────────┘
 
 esmj-size easy-uid --pretty
 
@@ -71,6 +71,7 @@ esmj-size easy-uid --pretty
 #     }
 #   },
 #   'easy-uid': {
+#     source: 'npm',
 #     downloads: { day: 3, week: 38, month: 142 },
 #     info: {
 #       license: 'ISC',
@@ -98,6 +99,7 @@ esmj-size easy-uid --pretty
 - `--bundle` - Bundle all dependencies with external dependencies and enable tree shaking
 - `--explain` - Display detailed webpack stats output for debugging
 - `--code <string>` - Provide a code snippet to analyze instead of package imports
+- `--local <dir>` - Add a local package directory (repeatable), including current directory via `--local .`
 
 ### Examples
 
@@ -125,6 +127,13 @@ esmj-size react-dom --external react --bundle
 **Use custom npm registry:**
 ```shell
 esmj-size @myorg/package --registry https://custom-registry.example.com
+```
+
+**Analyze local package directory:**
+```shell
+esmj-size --local .
+esmj-size react --local ./packages/local-lib
+esmj-size --local ./packages/local-a --local ./packages/local-b
 ```
 
 ## Network Speed Reference

@@ -5,6 +5,10 @@ import fs from 'fs-extra';
 
 import { API, PERIOD, SPEED } from './constant.mjs';
 
+function getLocalModuleMap({ localModules = [] }) {
+  return new Map(localModules.map((module) => [module.name, module]));
+}
+
 export async function createBundleResult({ TMP }) {
   const file = await fs.readFile(`${TMP}/blank.bundle.js`);
   const gzipFile = await promisify(zlib.gzip)(file, { level: 9 });
@@ -39,8 +43,22 @@ export async function createBundleResult({ TMP }) {
   return result;
 }
 
-export async function createDownloadsResult({ packages, result }) {
+export async function createDownloadsResult({
+  packages,
+  result,
+  localModules = [],
+}) {
+  const localModuleMap = getLocalModuleMap({ localModules });
+
   for (const packageName of packages) {
+    if (localModuleMap.has(packageName)) {
+      result[packageName] = {
+        ...result[packageName],
+        source: 'local',
+      };
+      continue;
+    }
+
     const [day, week, month] = await Promise.all(
       Object.keys(PERIOD).map((key) => {
         return fetch(`${API.NPM_DOWNLOADS}/${PERIOD[key]}/${packageName}`).then(
@@ -53,6 +71,7 @@ export async function createDownloadsResult({ packages, result }) {
 
     result[packageName] = {
       ...result[packageName],
+      source: 'npm',
       downloads: {
         day: day.downloads,
         week: week.downloads,
@@ -64,8 +83,33 @@ export async function createDownloadsResult({ packages, result }) {
   return result;
 }
 
-export async function createPackageInfo({ packages, result, options }) {
+export async function createPackageInfo({
+  packages,
+  result,
+  options,
+  localModules = [],
+}) {
+  const localModuleMap = getLocalModuleMap({ localModules });
+
   for (const packageName of packages) {
+    const localModule = localModuleMap.get(packageName);
+    if (localModule) {
+      result[packageName] = {
+        ...result[packageName],
+        source: 'local',
+        localPath: localModule.resolvedPath,
+        info: {
+          license: localModule.packageJson.license,
+          created: undefined,
+          updated: undefined,
+          version: localModule.packageJson.version,
+          unpackedSize: undefined,
+        },
+      };
+
+      continue;
+    }
+
     const packageInfo = await fetch(
       `${options.registry ?? API.REGISTRY_PACKAGE_INFO}/${packageName}`,
     )
@@ -94,6 +138,7 @@ export async function createPackageInfo({ packages, result, options }) {
 
     result[packageName] = {
       ...result[packageName],
+      source: 'npm',
       info: {
         license: packageInfo.license,
         created: new Date(packageInfo.time.created),

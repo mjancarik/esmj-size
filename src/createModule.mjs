@@ -5,6 +5,50 @@ import uid from 'easy-uid';
 import { execa } from 'execa';
 import fs from 'fs-extra';
 
+function resolvePackageName({ imp }) {
+  let importPath = imp;
+  const importParts = imp.split('/');
+  const signParts = imp.split('@');
+
+  if (imp.startsWith('@') && signParts.length === 3) {
+    importPath = `@${signParts[1]}`;
+  }
+
+  if (imp.startsWith('@') && signParts.length === 2) {
+    importPath = `@${signParts[1]}`;
+  }
+
+  if (!imp.startsWith('@') && signParts.length === 2) {
+    importPath = `${signParts[0]}`;
+  }
+
+  if (imp.startsWith('@')) {
+    return importParts.length > 2
+      ? `${importParts[0]}/${importParts[1]}`
+      : importPath;
+  }
+
+  return importParts.length > 1 ? importParts[0] : importPath;
+}
+
+function resolveInstallPackage({ imp }) {
+  const importParts = imp.split('/');
+  const signParts = imp.split('@');
+
+  if (
+    (imp.startsWith('@') && signParts.length === 3) ||
+    signParts.length === 2
+  ) {
+    return imp;
+  }
+
+  if (imp.startsWith('@')) {
+    return importParts.length > 2 ? `${importParts[0]}/${importParts[1]}` : imp;
+  }
+
+  return importParts.length > 1 ? importParts[0] : imp;
+}
+
 export async function createIndex({ packages, TMP, options }) {
   let indexImports = [];
 
@@ -57,56 +101,76 @@ export async function createEmptyModule() {
   return { TMP };
 }
 
-export function getPackages({ imports }) {
-  const packages = imports.map((imp) => {
-    let importPath = imp;
-    const importParts = imp.split('/');
-    const signParts = imp.split('@');
+export async function getLocalModules({
+  localPaths = [],
+  cwd = process.cwd(),
+}) {
+  const localModules = [];
+  const seenNames = new Set();
 
-    if (imp.startsWith('@') && signParts.length === 3) {
-      importPath = `@${signParts[1]}`;
+  for (const localPath of localPaths) {
+    const normalizedPath = localPath.trim();
+    const resolvedPath = path.resolve(cwd, normalizedPath);
+    const packageJsonPath = path.join(resolvedPath, 'package.json');
+
+    if (!(await fs.pathExists(resolvedPath))) {
+      throw new Error(`Local module path does not exist: ${resolvedPath}`);
     }
 
-    if (imp.startsWith('@') && signParts.length === 2) {
-      importPath = `@${signParts[1]}`;
+    const localPathStat = await fs.stat(resolvedPath);
+    if (!localPathStat.isDirectory()) {
+      throw new Error(`Local module path must be a directory: ${resolvedPath}`);
     }
 
-    if (!imp.startsWith('@') && signParts.length === 2) {
-      importPath = `${signParts[0]}`;
+    if (!(await fs.pathExists(packageJsonPath))) {
+      throw new Error(
+        `Local module must contain package.json: ${resolvedPath}`,
+      );
     }
 
-    if (imp.startsWith('@')) {
-      return importParts.length > 2
-        ? `${importParts[0]}/${importParts[1]}`
-        : importPath;
+    const packageJson = JSON.parse(await fs.readFile(packageJsonPath, 'utf8'));
+    if (!packageJson.name) {
+      throw new Error(
+        `Local module package.json must define name: ${packageJsonPath}`,
+      );
     }
 
-    return importParts.length > 1 ? importParts[0] : importPath;
-  });
+    if (seenNames.has(packageJson.name)) {
+      throw new Error(
+        `Duplicated local module name detected: ${packageJson.name}`,
+      );
+    }
 
-  return Array.from(new Set(packages));
+    seenNames.add(packageJson.name);
+
+    localModules.push({
+      inputPath: normalizedPath,
+      resolvedPath,
+      name: packageJson.name,
+      packageJson,
+      installSpecifier: `file:${resolvedPath}`,
+    });
+  }
+
+  return localModules;
 }
 
-export function getInstallPackages({ imports }) {
-  const installPackages = imports.map((imp) => {
-    const importParts = imp.split('/');
-    const signParts = imp.split('@');
+export function getPackages({ imports, localModules = [] }) {
+  const packages = imports.map((imp) => resolvePackageName({ imp }));
+  return Array.from(
+    new Set(
+      packages.concat(localModules.map((localModule) => localModule.name)),
+    ),
+  );
+}
 
-    if (
-      (imp.startsWith('@') && signParts.length === 3) ||
-      signParts.length === 2
-    ) {
-      return imp;
-    }
-
-    if (imp.startsWith('@')) {
-      return importParts.length > 2
-        ? `${importParts[0]}/${importParts[1]}`
-        : imp;
-    }
-
-    return importParts.length > 1 ? importParts[0] : imp;
-  });
-
-  return Array.from(new Set(installPackages));
+export function getInstallPackages({ imports, localModules = [] }) {
+  const installPackages = imports.map((imp) => resolveInstallPackage({ imp }));
+  return Array.from(
+    new Set(
+      installPackages.concat(
+        localModules.map((localModule) => localModule.installSpecifier),
+      ),
+    ),
+  );
 }

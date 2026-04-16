@@ -14,6 +14,14 @@ beforeAll(async () => {
   module = await import('../createResult.mjs');
 });
 
+beforeEach(() => {
+  global.fetch = jest.fn();
+});
+
+afterEach(() => {
+  jest.resetAllMocks();
+});
+
 describe('createResult', () => {
   it('should generate result object', async () => {
     const result = await module.createBundleResult({ TMP: 'folder' });
@@ -51,5 +59,64 @@ describe('createResult', () => {
         },
       }
     `);
+  });
+
+  it('should skip npm downloads for local modules', async () => {
+    const result = await module.createDownloadsResult({
+      packages: ['@scope/local-module'],
+      result: {},
+      localModules: [
+        {
+          name: '@scope/local-module',
+          resolvedPath: '/repo/local-module',
+          packageJson: {
+            name: '@scope/local-module',
+            version: '1.0.0',
+            license: 'MIT',
+          },
+        },
+      ],
+    });
+
+    expect(global.fetch).not.toHaveBeenCalled();
+    expect(result).toEqual({
+      '@scope/local-module': {
+        source: 'local',
+      },
+    });
+  });
+
+  it('should create local package info from local package.json metadata', async () => {
+    const result = await module.createPackageInfo({
+      packages: ['@scope/local-module'],
+      result: {},
+      options: {},
+      localModules: [
+        {
+          name: '@scope/local-module',
+          resolvedPath: '/repo/local-module',
+          packageJson: {
+            name: '@scope/local-module',
+            version: '1.0.0',
+            license: 'MIT',
+          },
+        },
+      ],
+    });
+
+    expect(global.fetch).not.toHaveBeenCalled();
+    expect(result).toEqual({
+      '@scope/local-module': {
+        source: 'local',
+        localPath: '/repo/local-module',
+        info: {
+          license: 'MIT',
+          created: undefined,
+          updated: undefined,
+          version: '1.0.0',
+          unpackedSize: undefined,
+        },
+      },
+    });
   });
 });
