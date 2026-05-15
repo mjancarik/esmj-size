@@ -55,7 +55,12 @@ program
   .option(
     '--bundle',
     'bundle all dependencies with external dependencies and tree shaking',
-  );
+  )
+  .option(
+    '--no-tree-shaking',
+    'disable tree shaking — only effective with --bundle',
+  )
+  .option('--no-side-effects', 'disable side effects optimization');
 
 program.parse(process.argv);
 (async (args, options) => {

@@ -97,6 +97,8 @@ esmj-size easy-uid --pretty
 - `--registry` - Specify a custom npm registry URL
 - `--external` - Define external dependencies for webpack config (dependencies that should not be bundled)
 - `--bundle` - Bundle all dependencies with external dependencies and enable tree shaking
+- `--no-tree-shaking` - Disable tree shaking (`usedExports`) — only effective with `--bundle`
+- `--no-side-effects` - Disable side effects optimization (`sideEffects`)
 - `--explain` - Display detailed webpack stats output for debugging
 - `--code <string>` - Provide a code snippet to analyze instead of package imports
 - `--local <dir>` - Add a local package directory (repeatable), including current directory via `--local .`
@@ -134,6 +136,17 @@ esmj-size @myorg/package --registry https://custom-registry.example.com
 esmj-size --local .
 esmj-size react --local ./packages/local-lib
 esmj-size --local ./packages/local-a --local ./packages/local-b
+```
+
+**Bundle without tree shaking:**
+```shell
+esmj-size react --bundle --no-tree-shaking
+```
+
+**Bundle without side effects optimization:**
+```shell
+esmj-size react --no-side-effects
+esmj-size react --bundle --no-tree-shaking --no-side-effects
 ```
 
 ## Network Speed Reference

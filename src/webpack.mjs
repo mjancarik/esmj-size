@@ -103,7 +103,8 @@ export async function bundle({ options, externals, TMP, packages }) {
     optimization: {
       minimize: true,
       runtimeChunk: options.bundle ? undefined : 'single',
-      usedExports: !!options.bundle,
+      usedExports: !!options.bundle && options.treeShaking !== false,
+      sideEffects: options.sideEffects !== false,
       minimizer: [
         new TerserPlugin({
           terserOptions: {
