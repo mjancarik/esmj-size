@@ -1,3 +1,9 @@
+## <small>0.8.6 (2026-05-15)</small>
+
+* feat: 🎸 add --full option ([b9f9ea0](https://github.com/mjancarik/esmj-size/commit/b9f9ea0))
+
+
+
 ## <small>0.8.5 (2026-05-15)</small>
 
 * feat: 🎸 add --no-tree-shaking and --no-side-effects options ([b3ecb5f](https://github.com/mjancarik/esmj-size/commit/b3ecb5f))
