@@ -1,3 +1,9 @@
+## <small>0.8.5 (2026-05-15)</small>
+
+* feat: 🎸 add --no-tree-shaking and --no-side-effects options ([b3ecb5f](https://github.com/mjancarik/esmj-size/commit/b3ecb5f))
+
+
+
 ## <small>0.8.4 (2026-04-16)</small>
 
 * ci: 🎡 remove build step ([ed4ddbd](https://github.com/mjancarik/esmj-size/commit/ed4ddbd))
