@@ -100,7 +100,8 @@ esmj-size easy-uid --pretty
 - `--no-tree-shaking` - Disable tree shaking (`usedExports`) — only effective with `--bundle`
 - `--no-side-effects` - Disable side effects optimization (`sideEffects`)
 - `--full` - Measure real package size without any optimizations (alias for `--bundle --no-tree-shaking --no-side-effects`)
-- `--explain` - Display detailed webpack stats output for debugging
+- `--explain` - Display per-package module breakdown (built vs orphaned modules)
+- `--analyze` - Interactive drill-down into per-file sizes and import reasons (requires TTY)
 - `--code <string>` - Provide a code snippet to analyze instead of package imports
 - `--local <dir>` - Add a local package directory (repeatable), including current directory via `--local .`
 

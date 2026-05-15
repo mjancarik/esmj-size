@@ -37,7 +37,7 @@ function resolveInstallPackage({ imp }) {
 
   if (
     (imp.startsWith('@') && signParts.length === 3) ||
-    signParts.length === 2
+    (!imp.startsWith('@') && signParts.length === 2)
   ) {
     return imp;
   }
@@ -47,6 +47,29 @@ function resolveInstallPackage({ imp }) {
   }
 
   return importParts.length > 1 ? importParts[0] : imp;
+}
+
+function resolveImportPath({ imp }) {
+  let importPath = imp;
+  const signParts = imp.split('@');
+
+  if (imp.startsWith('@') && signParts.length === 3) {
+    const versionAndSubpath = signParts[2];
+    const subpathIndex = versionAndSubpath.indexOf('/');
+    const subpath =
+      subpathIndex >= 0 ? versionAndSubpath.slice(subpathIndex) : '';
+    importPath = `@${signParts[1]}${subpath}`;
+  }
+
+  if (!imp.startsWith('@') && signParts.length === 2) {
+    const versionAndSubpath = signParts[1];
+    const subpathIndex = versionAndSubpath.indexOf('/');
+    const subpath =
+      subpathIndex >= 0 ? versionAndSubpath.slice(subpathIndex) : '';
+    importPath = `${signParts[0]}${subpath}`;
+  }
+
+  return importPath;
 }
 
 export async function createIndex({ packages, TMP, options }) {
@@ -160,6 +183,15 @@ export function getPackages({ imports, localModules = [] }) {
   return Array.from(
     new Set(
       packages.concat(localModules.map((localModule) => localModule.name)),
+    ),
+  );
+}
+
+export function getImportPaths({ imports, localModules = [] }) {
+  const importPaths = imports.map((imp) => resolveImportPath({ imp }));
+  return Array.from(
+    new Set(
+      importPaths.concat(localModules.map((localModule) => localModule.name)),
     ),
   );
 }

@@ -158,6 +158,20 @@ describe('createModule', () => {
       ]);
     });
 
+    it('should strip subpath exports from scoped packages', () => {
+      const result = module.getInstallPackages({
+        imports: ['@esmj/schema/full'],
+      });
+      expect(result).toEqual(['@esmj/schema']);
+    });
+
+    it('should strip subpath exports from non-scoped packages', () => {
+      const result = module.getInstallPackages({
+        imports: ['my-package/utils'],
+      });
+      expect(result).toEqual(['my-package']);
+    });
+
     it('should include local file specifiers with npm dependencies', () => {
       const result = module.getInstallPackages({
         imports: ['react'],
@@ -210,6 +224,45 @@ describe('createModule', () => {
         ],
       });
 
+      expect(result).toEqual(['react', '@scope/local-module']);
+    });
+  });
+
+  describe('getImportPaths', () => {
+    it('should return bare package names unchanged', () => {
+      const result = module.getImportPaths({
+        imports: ['react', '@esmj/monitor'],
+      });
+      expect(result).toEqual(['react', '@esmj/monitor']);
+    });
+
+    it('should strip version but preserve subpath for scoped packages', () => {
+      const result = module.getImportPaths({
+        imports: [
+          '@esmj/schema/full',
+          '@esmj/emitter@latest',
+          '@esmj/size@1.2.3/sub',
+        ],
+      });
+      expect(result).toEqual([
+        '@esmj/schema/full',
+        '@esmj/emitter',
+        '@esmj/size/sub',
+      ]);
+    });
+
+    it('should strip version but preserve subpath for non-scoped packages', () => {
+      const result = module.getImportPaths({
+        imports: ['my-package/utils', 'react@18/client'],
+      });
+      expect(result).toEqual(['my-package/utils', 'react/client']);
+    });
+
+    it('should include local package names', () => {
+      const result = module.getImportPaths({
+        imports: ['react'],
+        localModules: [{ name: '@scope/local-module' }],
+      });
       expect(result).toEqual(['react', '@scope/local-module']);
     });
   });

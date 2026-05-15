@@ -9,6 +9,7 @@ import ora from 'ora';
 import {
   createEmptyModule,
   createIndex,
+  getImportPaths,
   getInstallPackages,
   getLocalModules,
   getPackages,
@@ -20,6 +21,8 @@ import {
   createPackageInfo,
 } from './createResult.mjs';
 import {
+  renderExplainTable,
+  renderInteractiveExplainTable,
   renderPackageInfo,
   renderSizeTable,
   renderTimeTable,
@@ -64,6 +67,10 @@ program
   .option(
     '--full',
     'measure real package size without any optimizations (alias for --bundle --no-tree-shaking --no-side-effects)',
+  )
+  .option(
+    '--analyze',
+    'interactive per-module drill-down with file and import details',
   );
 
 program.parse(process.argv);
@@ -88,7 +95,8 @@ program.parse(process.argv);
 
   let spinner = !options.json && ora('Create project').start();
   const { TMP } = await createEmptyModule();
-  await createIndex({ TMP, packages, options });
+  const importPaths = getImportPaths({ imports, localModules });
+  await createIndex({ TMP, packages: importPaths, options });
   !options.json && spinner.succeed();
 
   try {
@@ -102,11 +110,15 @@ program.parse(process.argv);
     !options.json && spinner.succeed();
 
     if (options.explain) {
-      console.log(
-        stats.toString({
-          colors: true,
-        }),
-      );
+      await renderExplainTable({ stats });
+    }
+
+    if (options.interactive) {
+      await renderInteractiveExplainTable({ stats });
+    }
+
+    if (options.interactive) {
+      await renderInteractiveExplainTable({ stats });
     }
 
     let result = await createBundleResult({ TMP });
