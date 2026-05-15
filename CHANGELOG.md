@@ -1,3 +1,13 @@
+## 0.9.0 (2026-05-15)
+
+* feat: 🎸 add --analyze option and improve --explain output ([11e74af](https://github.com/mjancarik/esmj-size/commit/11e74af))
+
+
+### BREAKING CHANGE
+
+* 🧨 --explain flag returns table output
+
+
 ## <small>0.8.6 (2026-05-15)</small>
 
 * feat: 🎸 add --full option ([b9f9ea0](https://github.com/mjancarik/esmj-size/commit/b9f9ea0))
