@@ -60,10 +60,20 @@ program
     '--no-tree-shaking',
     'disable tree shaking — only effective with --bundle',
   )
-  .option('--no-side-effects', 'disable side effects optimization');
+  .option('--no-side-effects', 'disable side effects optimization')
+  .option(
+    '--full',
+    'measure real package size without any optimizations (alias for --bundle --no-tree-shaking --no-side-effects)',
+  );
 
 program.parse(process.argv);
 (async (args, options) => {
+  if (options.full) {
+    options.bundle = true;
+    options.treeShaking = false;
+    options.sideEffects = false;
+  }
+
   const imports = (args[0] ?? '')
     .split(',')
     .map((imp) => imp.trim())

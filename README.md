@@ -99,6 +99,7 @@ esmj-size easy-uid --pretty
 - `--bundle` - Bundle all dependencies with external dependencies and enable tree shaking
 - `--no-tree-shaking` - Disable tree shaking (`usedExports`) — only effective with `--bundle`
 - `--no-side-effects` - Disable side effects optimization (`sideEffects`)
+- `--full` - Measure real package size without any optimizations (alias for `--bundle --no-tree-shaking --no-side-effects`)
 - `--explain` - Display detailed webpack stats output for debugging
 - `--code <string>` - Provide a code snippet to analyze instead of package imports
 - `--local <dir>` - Add a local package directory (repeatable), including current directory via `--local .`
@@ -147,6 +148,11 @@ esmj-size react --bundle --no-tree-shaking
 ```shell
 esmj-size react --no-side-effects
 esmj-size react --bundle --no-tree-shaking --no-side-effects
+```
+
+**Measure real package size (no optimizations):**
+```shell
+esmj-size react --full
 ```
 
 ## Network Speed Reference
