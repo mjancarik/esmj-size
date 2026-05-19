@@ -1,3 +1,9 @@
+## <small>0.9.1 (2026-05-19)</small>
+
+* fix: 🐛 new --analyze flag ([1871577](https://github.com/mjancarik/esmj-size/commit/1871577))
+
+
+
 ## 0.9.0 (2026-05-15)
 
 * feat: 🎸 add --analyze option and improve --explain output ([11e74af](https://github.com/mjancarik/esmj-size/commit/11e74af))
