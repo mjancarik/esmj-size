@@ -113,11 +113,7 @@ program.parse(process.argv);
       await renderExplainTable({ stats });
     }
 
-    if (options.interactive) {
-      await renderInteractiveExplainTable({ stats });
-    }
-
-    if (options.interactive) {
+    if (options.analyze) {
       await renderInteractiveExplainTable({ stats });
     }
 
